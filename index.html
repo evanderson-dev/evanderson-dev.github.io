@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de LED</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Controle de LED</h1>
+    <button onclick="controlLED('on')">Ligar LED</button>
+    <button onclick="controlLED('off')">Desligar LED</button>
+
+    <script>
+        let ledStatus = 'desligado';
+
+        function updateLEDStatus(status) {
+            ledStatus = status;
+            document.getElementById('led-status').innerText = `LED está ${ledStatus}`;
+        }
+
+        function controlLED(action) {
+            fetch(`/led/${action}`)
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+                updateLEDStatus(action === 'on' ? 'ligado' : 'desligado');
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+        }
+    </script>
+</body>
+</html>
